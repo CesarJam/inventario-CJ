@@ -238,6 +238,44 @@ export const inventarioService = {
       salidas: salidas || [], 
       alertas: alertas || [] 
     };
+  },
+
+  // --- ACTUALIZAR Y ELIMINAR ENTRADAS ---
+  async actualizarEntrada(id, datos) {
+    const { error } = await supabase
+      .schema('inventario') // <-- Apuntamos al esquema correcto
+      .from('entradas_material')
+      .update(datos)
+      .eq('id', id)
+    if (error) throw error
+  },
+
+  async eliminarEntrada(id) {
+    const { error } = await supabase
+      .schema('inventario')
+      .from('entradas_material')
+      .delete()
+      .eq('id', id)
+    if (error) throw error
+  },
+
+  // --- ACTUALIZAR Y ELIMINAR SALIDAS ---
+  async actualizarSalida(id, datos) {
+    const { error } = await supabase
+      .schema('inventario')
+      .from('salidas_material')
+      .update(datos)
+      .eq('id', id)
+    if (error) throw error
+  },
+
+  async eliminarSalida(id) {
+    const { error } = await supabase
+      .schema('inventario')
+      .from('salidas_material')
+      .delete()
+      .eq('id', id)
+    if (error) throw error
   }
 
 
