@@ -107,7 +107,7 @@
             <h1 class="text-xl font-bold text-gray-900 dark:text-white leading-tight">
               ALMACEN - CJ
             </h1>
-            <p class="text-xs text-gray-500 dark:text-gray-400">Sistema DE ALMACEN</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">SISTEMA DE ALMACEN</p>
             <p class="text-xs text-gray-500 dark:text-gray-400">Consejería Jurídica</p>
           </div>
         </div>
