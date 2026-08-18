@@ -1,110 +1,129 @@
 <template>
   <transition name="modal-fade">
     <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+      <!-- Modal ancho (max-w-5xl) para acomodar las 3 columnas cómodamente -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-5xl overflow-hidden border border-gray-200 dark:border-gray-700 flex flex-col max-h-[90vh]">
         
         <!-- Encabezado -->
-        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-900/50">
-          <h3 class="text-lg font-bold text-gray-900 dark:text-white">Registrar Entrada de Material</h3>
-          <button @click="cerrar" class="text-gray-400 hover:text-gray-500 focus:outline-none">
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="px-6 py-5 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-900/50 shrink-0">
+          <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Registrar Entrada de Material</h3>
+          <button @click="cerrar" class="text-gray-400 hover:text-gray-500 focus:outline-none transition-colors">
+            <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        <!-- Cuerpo del Formulario -->
-        <form @submit.prevent="guardar" class="p-6 space-y-4">
+        <!-- Cuerpo del Formulario con Scroll si la pantalla es pequeña -->
+        <form @submit.prevent="guardar" class="p-6 md:p-8 overflow-y-auto flex-1 flex flex-col">
           
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Artículo</label>
-            <select 
-              v-model="formulario.articulo_id" 
-              required
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 transition-colors"
-            >
-              <option value="" disabled>Seleccione un artículo...</option>
-              <option v-for="item in articulos" :key="item.id" :value="item.id">
-                {{ item.articulo }} ({{ item.medida }})
-              </option>
-            </select>
-          </div>
+          <!-- GRID DE 3 COLUMNAS -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 flex-1">
+            
+            <!-- COLUMNA 1: Artículo e Imagen -->
+            <div class="space-y-4 flex flex-col">
+              <div>
+                <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Artículo</label>
+                <select 
+                  v-model="formulario.articulo_id" 
+                  required
+                  class="w-full px-4 py-3 text-lg border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                >
+                  <option value="" disabled>Seleccione un artículo...</option>
+                  <option v-for="item in articulos" :key="item.id" :value="item.id">
+                    {{ item.articulo }} ({{ item.medida }})
+                  </option>
+                </select>
+              </div>
 
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cantidad</label>
-              <input 
-                type="number" 
-                v-model="formulario.cantidad" 
-                required min="1"
-                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 transition-colors"
-              >
+              <!-- Contenedor de la Imagen Dinámica -->
+              <div class="w-full aspect-square bg-gray-100 dark:bg-gray-900/50 rounded-xl border border-gray-200 dark:border-gray-700 flex items-center justify-center overflow-hidden shadow-inner">
+                <img v-if="imagenArticuloSeleccionado" :src="imagenArticuloSeleccionado" class="w-full h-full object-cover transition-opacity duration-300" />
+                <div v-else class="flex flex-col items-center justify-center text-gray-400">
+                  <svg class="h-16 w-16 mb-2 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span class="text-sm font-medium">Sin imagen</span>
+                </div>
+              </div>
             </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo de Entrada</label>
-              <select 
-                v-model="formulario.tipo_entrada" 
-                required
-                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 transition-colors"
-              >
-                <option value="Stock Inicial">Stock Inicial (Anual)</option>
-                <option value="Ingreso Esporádico">Ingreso Esporádico</option>
-              </select>
+
+            <!-- COLUMNA 2: Detalles de la Transacción -->
+            <div class="space-y-6 flex flex-col">
+              <div>
+                <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Cantidad</label>
+                <input 
+                  type="number" 
+                  v-model="formulario.cantidad" 
+                  required min="1"
+                  class="w-full px-4 py-3 text-lg border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                >
+              </div>
+              <div>
+                <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Tipo de Entrada</label>
+                <select 
+                  v-model="formulario.tipo_entrada" 
+                  required
+                  class="w-full px-4 py-3 text-lg border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                >
+                  <option value="Stock Inicial">Stock Inicial (Anual)</option>
+                  <option value="Ingreso Esporádico">Ingreso Esporádico</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Fecha y Hora</label>
+                <input 
+                  type="datetime-local" 
+                  v-model="formulario.fecha_entrada" 
+                  required
+                  class="w-full px-4 py-3 text-lg border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                >
+              </div>
             </div>
+
+            <!-- COLUMNA 3: Observaciones -->
+            <div class="flex flex-col h-full">
+              <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Observaciones</label>
+              <textarea 
+                v-model="formulario.observacion" 
+                placeholder="Ej. Factura #123, Compra de urgencia, material donado..."
+                class="w-full flex-1 px-4 py-3 text-lg border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
+              ></textarea>
+              <p class="text-sm text-gray-500 mt-2">Agrega notas o referencias relevantes al ingreso de este material.</p>
+            </div>
+
           </div>
 
-          <!-- NUEVO CAMPO: Fecha y Hora Manual -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha y Hora de Ingreso</label>
-            <input 
-              type="datetime-local" 
-              v-model="formulario.fecha_entrada" 
-              required
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 transition-colors"
-            >
-            <p class="text-xs text-gray-500 mt-1">Puedes modificarla si estás registrando material con retraso.</p>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Observaciones (Opcional)</label>
-            <textarea 
-              v-model="formulario.observacion" 
-              rows="2" 
-              placeholder="Ej. Factura #123, Compra de urgencia..."
-              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 transition-colors"
-            ></textarea>
-          </div>
-
-          <!-- Botones de Acción -->
-          <div class="pt-4 flex gap-3 justify-end">
+          <!-- Botones de Acción (Base) -->
+          <div class="pt-6 mt-8 border-t border-gray-200 dark:border-gray-700 flex gap-4 justify-end shrink-0">
             <button 
               type="button" 
               @click="cerrar"
-              class="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              class="px-6 py-3 text-lg font-medium bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               Cancelar
             </button>
             <button 
               type="submit" 
               :disabled="guardando"
-              class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 disabled:opacity-50"
+              class="px-6 py-3 text-lg font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 disabled:opacity-50"
             >
-              <svg v-if="guardando" class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <svg v-if="guardando" class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              {{ guardando ? 'Guardando...' : 'Guardar Entrada' }}
+              {{ guardando ? 'Registrando...' : 'Guardar Entrada' }}
             </button>
           </div>
-        </form>
 
+        </form>
       </div>
     </div>
   </transition>
 </template>
 
 <script setup>
-import { ref, onMounted,onUnmounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import { inventarioService } from '@/services/inventarioService'
 import { useToast } from '@/composables/useToast'
 
@@ -131,7 +150,6 @@ const obtenerFechaActualFormateada = () => {
   return ahora.toISOString().slice(0, 16)
 }
 
-// Inicializamos el formulario reactivo
 const formulario = ref({
   articulo_id: '',
   cantidad: 1,
@@ -140,15 +158,19 @@ const formulario = ref({
   observacion: ''
 })
 
-// MODIFICADO: Ya no reseteamos la fecha al abrir el modal, la conservamos
+// NUEVO: Buscamos la URL de la imagen basándonos en el artículo seleccionado
+const imagenArticuloSeleccionado = computed(() => {
+  if (!formulario.value.articulo_id) return null
+  const articuloEncontrado = articulos.value.find(a => a.id === formulario.value.articulo_id)
+  return articuloEncontrado ? articuloEncontrado.imagen_url : null
+})
+
 watch(() => props.isOpen, (nuevoValor) => {
   if (nuevoValor) {
-    // Si por alguna razón la fecha está vacía, le ponemos la de hoy
     if (!formulario.value.fecha_entrada) {
       formulario.value.fecha_entrada = obtenerFechaActualFormateada()
     }
     
-    // Si abrimos desde el botón de la fila, asignamos ese artículo
     if (props.articuloPreseleccionado) {
       formulario.value.articulo_id = props.articuloPreseleccionado
     }
@@ -168,19 +190,15 @@ onUnmounted(() => {
 onMounted(async () => {
   window.addEventListener('keydown', manejarTeclado)
   try {
-    articulos.value = await inventarioService.obtenerArticulos()
+    articulos.value = await inventarioService.obtenerCatalogoCompleto()
   } catch (error) {
     toast.error('Error al cargar el catálogo de artículos')
   }
 })
 
-// MODIFICADO: Limpieza parcial para facturas/lotes
 const cerrar = () => {
-  // Solo limpiamos el artículo y reiniciamos la cantidad a 1.
-  // Conservamos: fecha_entrada, tipo_entrada y observacion.
   formulario.value.articulo_id = ''
   formulario.value.cantidad = 1
-  
   emit('close')
 }
 
@@ -197,7 +215,7 @@ const guardar = async () => {
     
     toast.success('Entrada registrada correctamente')
     emit('saved') 
-    cerrar() // Llama a la función que ahora conserva los datos base
+    cerrar() 
   } catch (error) {
     console.error(error)
     toast.error('Ocurrió un error al guardar la entrada')
