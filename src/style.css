@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+/* Evitar selección de texto para la sensación nativa Mobile-First */
+body {
+  /*user-select: none;
+  -webkit-user-select: none;*/
+  overscroll-behavior-y: none; /* Desactiva el pull-to-refresh nativo del navegador */
+}
