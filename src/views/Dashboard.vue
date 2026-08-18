@@ -105,9 +105,9 @@
           <img src="@/assets/logo-transparente.png" alt="Logo SIA" class="h-10 w-auto" />
           <div class="flex flex-col">
             <h1 class="text-xl font-bold text-gray-900 dark:text-white leading-tight">
-              SIA - CJ
+              ALMACEN - CJ
             </h1>
-            <p class="text-xs text-gray-500 dark:text-gray-400">Sistema DE ALAMCEN</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Sistema DE ALMACEN</p>
             <p class="text-xs text-gray-500 dark:text-gray-400">Consejería Jurídica</p>
           </div>
         </div>
