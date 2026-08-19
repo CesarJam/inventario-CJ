@@ -85,7 +85,7 @@
     <div class="absolute bottom-0 text-center w-full z-0">
       <footer class="shrink-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-4 md:px-8 py-3 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500 dark:text-gray-400 z-10 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] dark:shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.2)]">
         <div>
-          <span class="font-bold text-gray-700 dark:text-gray-300">SIA - CJ</span> &copy; 2026. Versión 1.0.
+          <span class="font-bold text-gray-700 dark:text-gray-300">Inventario - CJ</span> &copy; 2026. Versión 1.0.
         </div>
         
         <div class="flex items-center gap-2">
