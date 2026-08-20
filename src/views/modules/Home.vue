@@ -25,10 +25,9 @@
         
         <!-- Tarjeta: Total Entregado -->
         <div class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm flex items-center gap-4">
-          <div class="p-3 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-            </svg>
+          <div class="p-3 bg-green-50 dark:bg-green-900 rounded-lg flex items-center justify-center">
+            <!-- Ícono de Inventario -->
+            <img src="@/assets/iconos/inventario1.png" alt="Inventario" class="w-20 h-20 object-contain" />
           </div>
           <div>
             <p class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Insumos Entregados</p>
@@ -38,10 +37,9 @@
 
         <!-- Tarjeta: Total de Vales/Salidas -->
         <div class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm flex items-center gap-4">
-          <div class="p-3 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-lg">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-            </svg>
+          <div class="p-3 bg-blue-50 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+            <!-- Ícono de Transacciones/Flechas -->
+            <img src="@/assets/iconos/flechas1.png" alt="Transacción" class="w-20 h-20 object-contain" />
           </div>
           <div>
             <p class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Movimientos del Mes</p>
@@ -51,10 +49,9 @@
 
         <!-- Tarjeta: Alertas Críticas -->
         <div class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm flex items-center gap-4">
-          <div class="p-3 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-            </svg>
+          <div class="p-3 bg-red-100 dark:bg-red-900/50 rounded-lg flex items-center justify-center">
+            <!-- Ícono de Warning/Stock Crítico -->
+            <img src="@/assets/iconos/warning1.png" alt="Stock Crítico" class="w-20 h-20 object-contain" />
           </div>
           <div>
             <p class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Stock Crítico</p>

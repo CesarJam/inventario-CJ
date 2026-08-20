@@ -12,19 +12,22 @@
         </div>
 
         <div class="flex gap-3 w-full sm:w-auto">
+          <!-- Botón Nueva Entrada (Verde) -->
           <button @click="abrirEntrada()"
-            class="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium py-2 px-4 rounded-lg transition-colors">
+            class="flex-1 sm:flex-none cursor-pointer flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-medium text-white rounded-full bg-gradient-to-t from-[#14a73e] to-[#66f771] shadow-[0_0.7em_1.5em_-0.5em_#14a73e98] hover:shadow-[0_0.5em_1.5em_-0.5em_#14a73e98] active:shadow-[0_0.3em_1em_-0.5em_#14a73e98] active:scale-95 transition-all duration-200"
+          >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
             </svg>
             Nueva Entrada
           </button>
+          
+          <!-- Botón Registrar Salida (Rojo) -->
           <button @click="abrirSalida()"
-            class="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors shadow-sm">
+            class="flex-1 sm:flex-none cursor-pointer flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-medium text-white rounded-full bg-gradient-to-t from-[#dc2626] to-[#f87171] shadow-[0_0.7em_1.5em_-0.5em_#dc262698] hover:shadow-[0_0.5em_1.5em_-0.5em_#dc262698] active:shadow-[0_0.3em_1em_-0.5em_#dc262698] active:scale-95 transition-all duration-200"
+          >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
-              </path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
             </svg>
             Registrar Salida
           </button>
@@ -32,8 +35,9 @@
       </div>
 
       <!-- Buscador y Filtros -->
-      <div class="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm flex flex-col sm:flex-row gap-4 items-center">
-        
+      <div
+        class="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm flex flex-col sm:flex-row gap-4 items-center">
+
         <!-- Input de Texto -->
         <div class="relative flex-1 w-full">
           <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -59,7 +63,7 @@
         <!-- Selector de Año -->
         <div class="w-full sm:w-36 shrink-0">
           <select v-model="filtroAnio" @change="cargarInventario"
-            class="block w-full px-3 py-2 border border-blue-300 dark:border-blue-600 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm transition-colors cursor-pointer">
+            class="block w-full px-3 py-2 border border-gray-300 dark:border-blue-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-blue-100 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm transition-colors cursor-pointer">
             <option v-for="year in anosDisponibles" :key="year" :value="year">Año: {{ year }}</option>
           </select>
         </div>
@@ -67,29 +71,48 @@
       </div>
 
       <!-- Tabla de Inventario -->
-      <div class="bg-white dark:bg-gray-800 shadow-sm rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <div
+        class="bg-white dark:bg-gray-800 shadow-sm rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
             <thead class="bg-gray-50 dark:bg-gray-900/50">
               <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Imagen</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Artículo</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tipo</th>
-                <th scope="col" class="px-6 py-3 text-center text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Entradas {{ filtroAnio }}</th>
-                <th scope="col" class="px-6 py-3 text-center text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider">Salidas {{ filtroAnio }}</th>
-                <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-800 dark:text-gray-200 uppercase tracking-wider">Stock del año</th>
-                <th scope="col" class="px-6 py-3 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Acciones</th>
+                <th scope="col"
+                  class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Imagen</th>
+                <th scope="col"
+                  class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Artículo</th>
+                <th scope="col"
+                  class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Tipo</th>
+                <th scope="col"
+                  class="px-6 py-3 text-center text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+                  Entradas {{ filtroAnio }}</th>
+                <th scope="col"
+                  class="px-6 py-3 text-center text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider">
+                  Salidas {{ filtroAnio }}</th>
+                <th scope="col"
+                  class="px-6 py-3 text-center text-xs font-bold text-gray-800 dark:text-gray-200 uppercase tracking-wider">
+                  Stock del año</th>
+                <th scope="col"
+                  class="px-6 py-3 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Acciones</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800">
 
               <tr v-if="cargando">
                 <td colspan="7" class="px-6 py-12 text-center">
-                  <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <path class="opacity-75" fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
                   </svg>
-                  <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Calculando inventario de {{ filtroAnio }}...</p>
+                  <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Calculando inventario de {{ filtroAnio }}...
+                  </p>
                 </td>
               </tr>
 
@@ -99,28 +122,24 @@
                 </td>
               </tr>
 
-              <tr v-else v-for="item in inventarioFiltrado" :key="item.articulo_id" 
-                :id="`fila-${item.articulo_id}`"
+              <tr v-else v-for="item in inventarioFiltrado" :key="item.articulo_id" :id="`fila-${item.articulo_id}`"
                 :class="[
-                  'transition-all duration-700 ease-in-out', 
-                  ultimoModificado === item.articulo_id 
-                    ? 'bg-blue-100 dark:bg-blue-900/40 shadow-inner ring-2 ring-inset ring-blue-500' 
+                  'transition-all duration-700 ease-in-out',
+                  ultimoModificado === item.articulo_id
+                    ? 'bg-blue-100 dark:bg-blue-900/40 shadow-inner ring-2 ring-inset ring-blue-500'
                     : 'hover:bg-gray-50 dark:hover:bg-gray-700/50'
-                ]"
-              >
-                
+                ]">
+
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <div 
-                    @click="item.imagen_url ? abrirVistaPrevia(item.imagen_url) : null"
-                    :class="[
-                      'h-10 w-10 flex-shrink-0 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden border border-gray-200 dark:border-gray-600',
-                      item.imagen_url ? 'cursor-pointer hover:opacity-80 hover:ring-2 hover:ring-blue-500 transition-all' : ''
-                    ]"
-                    :title="item.imagen_url ? 'Clic para ampliar' : 'Sin imagen'"
-                  >
-                    <img v-if="item.imagen_url" :src="item.imagen_url" :alt="item.articulo" class="h-full w-full object-cover" />
+                  <div @click="item.imagen_url ? abrirVistaPrevia(item.imagen_url) : null" :class="[
+                    'h-10 w-10 flex-shrink-0 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center overflow-hidden border border-gray-200 dark:border-gray-600',
+                    item.imagen_url ? 'cursor-pointer hover:opacity-80 hover:ring-2 hover:ring-blue-500 transition-all' : ''
+                  ]" :title="item.imagen_url ? 'Clic para ampliar' : 'Sin imagen'">
+                    <img v-if="item.imagen_url" :src="item.imagen_url" :alt="item.articulo"
+                      class="h-full w-full object-cover" />
                     <svg v-else class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                   </div>
                 </td>
@@ -130,32 +149,50 @@
                   <div class="text-xs text-gray-500 dark:text-gray-400">{{ item.medida }}</div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <span :class="['px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full', item.tipo === 'Oficina' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400']">
+                  <span :class="[
+                    'text-xs font-medium px-2 py-0.5 rounded border transition-colors',
+                    item.tipo === 'Oficina'
+                      ? 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-400'
+                      : 'bg-gray-100 border-gray-200 text-gray-700 hover:bg-gray-200 hover:border-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700'
+                  ]">
                     {{ item.tipo }}
                   </span>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-blue-700 dark:text-blue-400">
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-blue-700 dark:text-blue-400">
                   {{ item.total_entradas }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-amber-700 dark:text-amber-400">
+                <td
+                  class="px-6 py-4 whitespace-nowrap text-sm text-center font-medium text-amber-700 dark:text-amber-400">
                   {{ item.total_salidas }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-center bg-gray-50/50 dark:bg-gray-900/20">
-                  <span :class="['text-base font-black', item.stock_disponible <= 5 ? 'text-red-600 dark:text-red-400' : 'text-gray-900 dark:text-white']">
+                  <span
+                    :class="['text-base font-black', item.stock_disponible <= 5 ? 'text-red-600 dark:text-red-400' : 'text-gray-900 dark:text-white']">
                     {{ item.stock_disponible }}
                   </span>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-center space-x-2">
-                  <button @click="abrirEntrada(item)" title="Añadir Entrada"
-                    class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                  </button>
-                  <!-- MODIFICADO: Agregamos :disabled y clases condicionales -->
-                  <button @click="abrirSalida(item)" title="Registrar Salida"
-                    :disabled="item.stock_disponible <= 0"
-                    class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 hover:bg-amber-200 dark:hover:bg-amber-900/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg>
-                  </button>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <!-- Contenedor Flex para separar los botones -->
+                  <div class="flex items-center justify-between gap-2">
+
+                    <button @click="abrirEntrada(item)" title="Añadir Entrada"
+                      class="cursor-pointer flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-medium text-white rounded-full bg-gradient-to-t from-[#14a73e] to-[#66f771] shadow-[0_0.7em_1.5em_-0.5em_#14a73e98] hover:shadow-[0_0.5em_1.5em_-0.5em_#14a73e98] active:shadow-[0_0.3em_1em_-0.5em_#14a73e98] active:scale-95 transition-all duration-200">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                      </svg>
+
+                    </button>
+
+                    <button @click="abrirSalida(item)" title="Registrar Salida" :disabled="item.stock_disponible <= 0"
+                      class="cursor-pointer flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-medium text-white rounded-full bg-gradient-to-t from-[#dc2626] to-[#f87171] shadow-[0_0.7em_1.5em_-0.5em_#dc262698] hover:shadow-[0_0.5em_1.5em_-0.5em_#dc262698] active:shadow-[0_0.3em_1em_-0.5em_#dc262698] active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 disabled:hover:shadow-[0_0.7em_1.5em_-0.5em_#dc262698]">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                      </svg>
+
+                    </button>
+
+                  </div>
                 </td>
               </tr>
 
@@ -167,36 +204,31 @@
     </div>
 
     <!-- Modales -->
-    <EntradaMaterialModal 
-      :is-open="mostrarModalEntrada" 
-      :articulo-preseleccionado="articuloPreseleccionado"
-      @close="cerrarModales"
-      @saved="handleGuardado" 
-    />
+    <EntradaMaterialModal :is-open="mostrarModalEntrada" :articulo-preseleccionado="articuloPreseleccionado"
+      @close="cerrarModales" @saved="handleGuardado" />
 
-    <SalidaMaterialModal 
-      :is-open="mostrarModalSalida" 
-      :inventario-actual="inventario" 
-      :articulo-preseleccionado="articuloPreseleccionado"
-      @close="cerrarModales"
-      @saved="handleGuardado" 
-    />
+    <SalidaMaterialModal :is-open="mostrarModalSalida" :inventario-actual="inventario"
+      :articulo-preseleccionado="articuloPreseleccionado" @close="cerrarModales" @saved="handleGuardado" />
 
     <!-- Modal de Vista Previa de Imagen (Lightbox) -->
     <transition name="modal-fade">
-      <div v-if="mostrarModalImagen" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm" @click.self="cerrarVistaPrevia">
+      <div v-if="mostrarModalImagen"
+        class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+        @click.self="cerrarVistaPrevia">
         <div class="relative max-w-4xl max-h-[90vh] flex flex-col items-center justify-center">
-          <button @click="cerrarVistaPrevia" class="absolute -top-12 right-0 text-white hover:text-gray-300 focus:outline-none transition-colors">
+          <button @click="cerrarVistaPrevia"
+            class="absolute -top-12 right-0 text-white hover:text-gray-300 focus:outline-none transition-colors">
             <svg class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
-          <img :src="imagenSeleccionada" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" @click.stop />
+          <img :src="imagenSeleccionada" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
+            @click.stop />
         </div>
       </div>
     </transition>
-    
-  </div> 
+
+  </div>
 </template>
 
 <script setup>
@@ -275,7 +307,7 @@ const handleGuardado = async () => {
 
   if (idModificado) {
     await nextTick();
-    
+
     const fila = document.getElementById(`fila-${idModificado}`);
     if (fila) {
       fila.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -325,6 +357,19 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 </style>

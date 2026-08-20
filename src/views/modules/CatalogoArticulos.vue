@@ -13,17 +13,35 @@
       <!-- Controles Superiores: Exportación y Nuevo -->
       <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
         <div class="flex gap-2">
-          <button @click="exportarCSV" :disabled="articulosFiltrados.length === 0" class="flex items-center gap-1.5 px-3 py-2 bg-green-50 text-green-700 border border-green-200 hover:bg-green-100 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800 rounded-lg text-sm font-medium transition-colors disabled:opacity-50" title="Exportar a Excel (CSV)">
+          
+          <!-- Botón CSV (Verde) -->
+          <button 
+            @click="exportarCSV" 
+            :disabled="articulosFiltrados.length === 0" 
+            class="cursor-pointer flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-medium text-white rounded-full bg-gradient-to-t from-[#14a73e] to-[#66f771] shadow-[0_0.7em_1.5em_-0.5em_#14a73e98] hover:shadow-[0_0.5em_1.5em_-0.5em_#14a73e98] active:shadow-[0_0.3em_1em_-0.5em_#14a73e98] active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 disabled:hover:shadow-[0_0.7em_1.5em_-0.5em_#14a73e98]" 
+            title="Exportar a Excel (CSV)"
+          >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
             CSV
           </button>
-          <button @click="exportarPDF" :disabled="articulosFiltrados.length === 0" class="flex items-center gap-1.5 px-3 py-2 bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800 rounded-lg text-sm font-medium transition-colors disabled:opacity-50" title="Descargar PDF">
+          
+          <!-- Botón PDF (Rojo) -->
+          <button 
+            @click="exportarPDF" 
+            :disabled="articulosFiltrados.length === 0" 
+            class="cursor-pointer flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-medium text-white rounded-full bg-gradient-to-t from-[#dc2626] to-[#f87171] shadow-[0_0.7em_1.5em_-0.5em_#dc262698] hover:shadow-[0_0.5em_1.5em_-0.5em_#dc262698] active:shadow-[0_0.3em_1em_-0.5em_#dc262698] active:scale-95 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 disabled:hover:shadow-[0_0.7em_1.5em_-0.5em_#dc262698]" 
+            title="Descargar PDF"
+          >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
             PDF
           </button>
         </div>
 
-        <button @click="abrirModalNuevo" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors shadow-sm ml-auto md:ml-0">
+        <!-- Botón Nuevo Artículo (Azul) -->
+        <button 
+          @click="abrirModalNuevo" 
+          class="cursor-pointer flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-medium text-white rounded-full bg-gradient-to-t from-[#2563eb] to-[#60a5fa] shadow-[0_0.7em_1.5em_-0.5em_#2563eb98] hover:shadow-[0_0.5em_1.5em_-0.5em_#2563eb98] active:shadow-[0_0.3em_1em_-0.5em_#2563eb98] active:scale-95 transition-all duration-200 ml-auto md:ml-0"
+        >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
           Nuevo Artículo
         </button>
@@ -97,14 +115,44 @@
               <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{{ item.articulo }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ item.medida }}</td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <span :class="['px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-full', item.tipo === 'Oficina' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400']">
-                  {{ item.tipo }}
-                </span>
+                <span :class="[
+                    'text-xs font-medium px-2 py-0.5 rounded border transition-colors',
+                    item.tipo === 'Oficina'
+                      ? 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-400'
+                      : 'bg-gray-100 border-gray-200 text-gray-700 hover:bg-gray-200 hover:border-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700'
+                  ]">
+                    {{ item.tipo }}
+                  </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <button @click="abrirModalEditar(item)" class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-4">Editar</button>
-                <button @click="confirmarEliminacion(item.id)" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">Eliminar</button>
-              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+  <div class="flex items-center justify-end gap-3">
+    
+    <!-- Botón Editar (Azul) -->
+    <button 
+      @click="abrirModalEditar(item)" 
+      title="Editar"
+      class="cursor-pointer flex items-center justify-center w-9 h-9 text-white rounded-full bg-gradient-to-t from-[#2563eb] to-[#60a5fa] shadow-[0_0.7em_1.5em_-0.5em_#2563eb98] hover:shadow-[0_0.5em_1.5em_-0.5em_#2563eb98] active:shadow-[0_0.3em_1em_-0.5em_#2563eb98] active:scale-95 transition-all duration-200"
+    >
+      <!-- Ícono de Lápiz -->
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+      </svg>
+    </button>
+
+    <!-- Botón Eliminar (Rojo) -->
+    <button 
+      @click="confirmarEliminacion(item.id)" 
+      title="Eliminar"
+      class="cursor-pointer flex items-center justify-center w-9 h-9 text-white rounded-full bg-gradient-to-t from-[#dc2626] to-[#f87171] shadow-[0_0.7em_1.5em_-0.5em_#dc262698] hover:shadow-[0_0.5em_1.5em_-0.5em_#dc262698] active:shadow-[0_0.3em_1em_-0.5em_#dc262698] active:scale-95 transition-all duration-200"
+    >
+      <!-- Ícono de Bote de Basura -->
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+      </svg>
+    </button>
+
+  </div>
+</td>
             </tr>
           </tbody>
         </table>

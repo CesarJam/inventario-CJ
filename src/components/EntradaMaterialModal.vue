@@ -84,7 +84,28 @@
             <!-- COLUMNA 3: Observaciones -->
             <div class="flex flex-col h-full">
               <label class="block text-lg font-medium text-gray-700 dark:text-gray-300 mb-2">Observaciones</label>
+              
+              <!-- Botones de Autocompletado -->
+              <div class="flex flex-wrap gap-2 mb-3">
+                <button 
+                  type="button" 
+                  @click="agregarTextoObservacion('Factura ')"
+                  class="text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 box-border border border-transparent focus:outline-none font-medium leading-5 rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 transition-colors"
+                >
+                  + Factura
+                </button>
+                <button 
+                  type="button" 
+                  @click="agregarTextoObservacion('Adquisiciones y servicios generales ')"
+                  class="text-white bg-[#2557D6] hover:bg-[#2557D6]/90 focus:ring-4 focus:ring-[#2557D6]/50 box-border border border-transparent focus:outline-none font-medium leading-5 rounded-lg text-sm px-4 py-2.5 text-center inline-flex items-center dark:focus:ring-[#2557D6]/50 transition-colors"
+                >
+                  + Adquisiciones y servicios
+                </button>
+              </div>
+
+              <!-- Referencia "observacionesInput" agregada -->
               <textarea 
+                ref="observacionesInput"
                 v-model="formulario.observacion" 
                 placeholder="Ej. Factura #123, Compra de urgencia, material donado..."
                 class="w-full flex-1 px-4 py-3 text-lg border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
@@ -123,7 +144,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
+// IMPORTANTE: Asegurarnos de importar 'nextTick'
+import { ref, onMounted, onUnmounted, watch, computed, nextTick } from 'vue'
 import { inventarioService } from '@/services/inventarioService'
 import { useToast } from '@/composables/useToast'
 
@@ -144,6 +166,8 @@ const toast = useToast()
 const articulos = ref([])
 const guardando = ref(false)
 
+const observacionesInput = ref(null)
+
 const obtenerFechaActualFormateada = () => {
   const ahora = new Date()
   ahora.setMinutes(ahora.getMinutes() - ahora.getTimezoneOffset())
@@ -158,12 +182,28 @@ const formulario = ref({
   observacion: ''
 })
 
-// NUEVO: Buscamos la URL de la imagen basándonos en el artículo seleccionado
 const imagenArticuloSeleccionado = computed(() => {
   if (!formulario.value.articulo_id) return null
   const articuloEncontrado = articulos.value.find(a => a.id === formulario.value.articulo_id)
   return articuloEncontrado ? articuloEncontrado.imagen_url : null
 })
+
+// NUEVA FUNCIÓN: Agrega el texto y mueve el foco
+const agregarTextoObservacion = async (texto) => {
+  // Verificamos si ya hay texto para no pegar todo junto (agrega espacio si aplica)
+  const actual = formulario.value.observacion || ''
+  formulario.value.observacion = actual ? `${actual} ${texto}` : texto
+  
+  // Esperamos al siguiente renderizado del DOM de Vue
+  await nextTick()
+  
+  // Ponemos el cursor en el textarea y lo movemos hasta el final
+  if (observacionesInput.value) {
+    observacionesInput.value.focus()
+    const length = formulario.value.observacion.length
+    observacionesInput.value.setSelectionRange(length, length)
+  }
+}
 
 watch(() => props.isOpen, (nuevoValor) => {
   if (nuevoValor) {
